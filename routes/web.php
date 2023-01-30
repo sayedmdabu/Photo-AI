@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
+    Route::get('photo-upload', [PhotoController::class,'photoAdd'])->name('photoAdd');
+    Route::get('photo-store', [PhotoController::class,'photoStore'])->name('photoStore');
+    Route::get('photo-download', [PhotoController::class,'photoDownload'])->name('photoDownload');
 });

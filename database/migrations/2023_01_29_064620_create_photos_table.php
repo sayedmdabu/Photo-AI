@@ -19,6 +19,9 @@ return new class extends Migration
             $table->integer('serial_number');
             $table->binary('photo');
             $table->timestamps();
+
+            $table->index('id');
+            $table->index('user_id');
         });
     }
 

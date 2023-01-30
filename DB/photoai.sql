@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 29, 2023 at 06:57 AM
--- Server version: 8.0.32-0buntu0.22.04.1
+-- Generation Time: Jan 30, 2023 at 04:24 AM
+-- Server version: 8.0.32-0ubuntu0.22.04.2
 -- PHP Version: 8.0.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -60,8 +60,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2023_01_29_051908_create_sessions_table', 1),
-(7, '2018_08_08_100000_create_telescope_entries_table', 2),
-(8, '2023_01_29_064620_create_photos_table', 2);
+(9, '2018_08_08_100000_create_telescope_entries_table', 2),
+(10, '2023_01_29_064620_create_photos_table', 2);
 
 -- --------------------------------------------------------
 
@@ -226,7 +226,9 @@ ALTER TABLE `personal_access_tokens`
 -- Indexes for table `photos`
 --
 ALTER TABLE `photos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `photos_id_index` (`id`),
+  ADD KEY `photos_user_id_index` (`user_id`);
 
 --
 -- Indexes for table `sessions`
@@ -275,7 +277,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
