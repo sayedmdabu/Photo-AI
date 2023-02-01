@@ -33,7 +33,7 @@ class PhotoController extends Controller
         if(empty($serial_no)){
             $serial_no=1;            
         }else{
-            $serial_no+=1;
+            $serial_no=$serial_no->serial_number+1;
         }
 
         foreach($images as $image){
@@ -72,15 +72,10 @@ class PhotoController extends Controller
         $zip = new ZipArchive;
         if ($zip->open($fileName, ZipArchive::CREATE) ===TRUE)
         {      
-            // $zip->addFile(url('/').$upload_path);
                 foreach($photos as $photo){
-                    // $url=url('').$photo->photo;
-                    // $name = basename($url);
                     $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$photo->serial_number.'/'.$photo->photo;
-                    // dd($upload_path);
                     $url=public_path($upload_path);
-                    $name = basename($url);
-                    // dd($name);              
+                    $name = basename($url);          
                     $zip->addFile($url, $name);
                 }
             $zip->close();
