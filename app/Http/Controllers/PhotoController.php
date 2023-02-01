@@ -7,7 +7,8 @@ use App\Models\Photo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use File;
-use Zipper;
+use Zip;
+use ZipArchive;
 class PhotoController extends Controller
 {
     public function photoAdd(){
@@ -41,14 +42,13 @@ class PhotoController extends Controller
             $image_full_name = $image_name . '.' . $ext;
             $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$serial_no.'/';
             $image_url =$upload_path . $image_full_name;
-
             // dd($image_url);
             $image->move(public_path() . '/' . $upload_path, $image_full_name);
 
             $insert=new Photo();
             $insert->user_id=$user_id;
             $insert->serial_number=$serial_no;
-            $insert->photo=$image_url;
+            $insert->photo=$image_full_name;
             $insert->save();
             sleep(1);
         }
@@ -60,23 +60,49 @@ class PhotoController extends Controller
         // $zip = new ZipArchive;   
         $user_id=Auth::user()->id;
         $fileName='user_'.$user_id.'.zip';
-        $upload_path = '/photo_ai/user_'.$user_id.'/*';
-        // dd($upload_path);
-        // if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
+        $upload_path = '/photo_ai/user_'.$user_id.'serial_1';
+        $upload_zip = '/photo_ai/';
+        $do = '/photo_ai/';
+
+        $photos=Photo::where('user_id',$user_id)->get();
+        $fileName='user_'.$user_id.'.zip';
+        $upload_zip = '/photo_ai/';
+        $download = '/photo_ai/'.$fileName;
+        // dd(url('/').$upload_path);
+        $zip = new ZipArchive;
+        if ($zip->open($fileName, ZipArchive::CREATE) ===TRUE)
+        {      
+            // $zip->addFile(url('/').$upload_path);
+                foreach($photos as $photo){
+                    // $url=url('').$photo->photo;
+                    // $name = basename($url);
+                    $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$photo->serial_number.'/'.$name;
+                    // dd($upload_path);
+                    $url=public_path($upload_path);
+                    $name = basename($url);
+                    // dd($name);              
+                    $zip->addFile($url, $name);
+                }
+            $zip->close();
+        }
+
+        return response()->download(public_path($upload_path));
+        // dd($photos);
+        // $zip = new ZipArchive;
+        // if ($zip->open($fileName, ZipArchive::CREATE) === TRUE)
         // {
-            // $files = File::files(url('/').$upload_path);
-            $files = glob(public_path($upload_path));
-            Zipper::make(public_path($fileName))->add($files)->close();
-            // dd(url('/').$upload_path);
-            // $relativeNameInZipFile = basename('user_'.$user_id);
-            // $zip->addFile($files, $relativeNameInZipFile);
-            // foreach ($files as $key => $value) {
-            // }
-             
+        //     // Add files to the zip file
+        //     foreach($photos as $photo){
+        //         $url=public_path($photo->photo);
+        //         $name = basename($url);               
+        //         $zip->addFile($name, $photo->photo);
+        //     }
+        
+        //     // All files are added, so close the zip file.
         //     $zip->close();
         // }
-    
-        return response()->download(public_path($fileName));
+
+        return response()->download(public_path($upload_zip.$fileName));
 
     }
 }
