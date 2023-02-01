@@ -31,6 +31,6 @@ Route::middleware([
     Route::get('photo-upload', [PhotoController::class,'photoAdd'])->name('photoAdd');
     Route::get('photo-list', [PhotoController::class,'photoList'])->name('photoList');
     Route::post('photo-store', [PhotoController::class,'photoStore'])->name('photoStore');
-    Route::get('photo-download', [PhotoController::class,'photoDownload'])->name('photoDownload');
+    Route::get('photo-download/{serial_no}', [PhotoController::class,'photoDownload'])->name('photoDownload');
     
 });

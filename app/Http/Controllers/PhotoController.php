@@ -9,6 +9,7 @@ use App\Models\User;
 use File;
 use Zip;
 use ZipArchive;
+use DB;
 class PhotoController extends Controller
 {
     public function photoAdd(){
@@ -17,8 +18,11 @@ class PhotoController extends Controller
     }
     public function photoList(){
         $user_id=Auth::user()->id;
-        $photos=Photo::where('user_id',$user_id)->get();
-        return view('pages.photo.index',compact('photos'));
+        $row_lenght=0;
+        $total=0;
+        $photos=Photo::all()->where('user_id',$user_id)->groupBy('serial_number')->sortKeysDesc();
+        // dd($photos);
+        return view('pages.photo.index',compact('photos','row_lenght','total'));
     }
 
     public function photoStore(Request $request){
@@ -56,16 +60,14 @@ class PhotoController extends Controller
         return redirect()->route('photoList')->with('success','You have successfully upload image.');
     }
 
-    public function photoDownload(){
-        // $zip = new ZipArchive;   
+    public function photoDownload($serial_no){ 
         $user_id=Auth::user()->id;
-        $fileName='user_'.$user_id.'.zip';
-        $upload_path = '/photo_ai/user_'.$user_id.'serial_1';
+        $fileName='user_'.$user_id.'_serial_'.$serial_no.'.zip';
+        $upload_path = '/photo_ai/user_'.$user_id.'serial_'.$serial_no;
         $upload_zip = '/photo_ai/';
         $do = '/photo_ai/';
 
-        $photos=Photo::where('user_id',$user_id)->get();
-        $fileName='user_'.$user_id.'.zip';
+        $photos=Photo::where('user_id',$user_id)->where('serial_number',$serial_no)->get();
         $upload_zip = '/photo_ai/';
         $download = '/photo_ai/'.$fileName;
         // dd(url('/').$upload_path);

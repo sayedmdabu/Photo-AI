@@ -31,24 +31,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($photos as $photo)
-                            {{-- @dd(url('/').$photo->photo) --}}
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ $photo->user_id }}
-                                </td>
-                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ $photo->serial_number }}
-                                </td>
-                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    <img class="" src="{{url('/').$photo->photo }}" height="300" width="100" alt="photo">
-                                   
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href=""
-                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Download</a>
-                                </td>
-                            </tr>
+                            @foreach ($photos as $photo_serial)
+                                @foreach ($photo_serial as $key=>$photo)
+                                    <?php 
+                                        $total_serial=count($photo_serial);                                   
+                                        $total+=$key;
+                                    ?>                                                                               
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                            {{ $photo->user_id }}
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                            {{ $photo->serial_number }}
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                            <img class="" src="{{url('/').'/photo_ai/user_'.$photo->user_id.'/serial_'.$photo->serial_number.'/'.$photo->photo}}" height="300" width="100" alt="photo">
+                                        
+                                        </td>
+                                        @if ($total==0)
+                                            <td class="px-6 py-4" rowspan="{{$total_serial}}">
+                                                <x-jet-button onclick="downloadBulkentryFormat('{{$photo->serial_number}}')">
+                                                    {{ __('Download') }}
+                                                </x-jet-button>
+                                            </td>                               
+                                        @endif
+                                    </tr>
+                                @endforeach
+                                <?php 
+                                    $total_serial=0;                                   
+                                    $total=0;
+                                ?>   
                             @endforeach
                         </tbody>
                         {{-- @forelse ($tasks as $task)
@@ -76,8 +88,9 @@
         </div>
     </div>
     <script>
-        function downloadBulkentryFormat(){
-            window.open("{{route('photoDownload')}}","_blank");
+        function downloadBulkentryFormat(serial_no){
+            var url = "{{route('photoDownload', '')}}"+"/"+serial_no;
+            window.open(url,"_blank");
         }
     </script>
 </x-app-layout>
