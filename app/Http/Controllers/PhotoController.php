@@ -76,7 +76,7 @@ class PhotoController extends Controller
                 foreach($photos as $photo){
                     // $url=url('').$photo->photo;
                     // $name = basename($url);
-                    $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$photo->serial_number.'/'.$name;
+                    $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$photo->serial_number.'/'.$photo->photo;
                     // dd($upload_path);
                     $url=public_path($upload_path);
                     $name = basename($url);
