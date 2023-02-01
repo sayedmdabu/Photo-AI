@@ -86,23 +86,7 @@ class PhotoController extends Controller
             $zip->close();
         }
 
-        return response()->download(public_path($upload_path));
-        // dd($photos);
-        // $zip = new ZipArchive;
-        // if ($zip->open($fileName, ZipArchive::CREATE) === TRUE)
-        // {
-        //     // Add files to the zip file
-        //     foreach($photos as $photo){
-        //         $url=public_path($photo->photo);
-        //         $name = basename($url);               
-        //         $zip->addFile($name, $photo->photo);
-        //     }
-        
-        //     // All files are added, so close the zip file.
-        //     $zip->close();
-        // }
-
-        return response()->download(public_path($upload_zip.$fileName));
+        return response()->download($fileName);
 
     }
 }
