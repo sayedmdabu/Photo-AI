@@ -9,9 +9,9 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
                     <x-link href="{{ route('photoAdd') }}" class="m-4 px-2 py-1 rounded">Add Photo</x-link>
-                    <x-jet-button onclick="downloadBulkentryFormat()">
+                    {{-- <x-jet-button onclick="downloadBulkentryFormat()">
                         {{ __('Download') }}
-                    </x-jet-button>
+                    </x-jet-button> --}}
                     {{-- <x-link  class="m-4 px-2 py-1 rounded"></x-link> --}}
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
