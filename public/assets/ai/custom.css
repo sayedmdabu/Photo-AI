@@ -1,0 +1,10 @@
+.w-full{
+    float: left !important;
+    /* min-height: 60px; */
+}
+.items-end{
+    display: none !important;
+}
+.from-transparent{
+    --tw-gradient-stops: none !important;
+}
