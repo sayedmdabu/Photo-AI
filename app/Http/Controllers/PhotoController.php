@@ -20,9 +20,25 @@ class PhotoController extends Controller
         $user_id=Auth::user()->id;
         $row_lenght=0;
         $total=0;
-        $photos=Photo::all()->where('user_id',$user_id)->groupBy('serial_number')->sortKeysDesc();
+        // $photos=Photo::where('user_id',$user_id)->groupBy('serial_number')->get();
+        $photos=Photo::where('user_id',$user_id)->groupBy('serial_number')->select('serial_number', DB::raw('count(*) as total'))->get();
+        // dd($photos[0]->serial_number);
+        // $photos=Photo::all()->where('user_id',$user_id)->groupBy('serial_number')->sortKeysDesc();
         // dd($photos);
         return view('pages.photo.index',compact('photos','row_lenght','total'));
+    }
+    public function photoView($serial_number){
+        // dd($serial_number);
+        $user_id=Auth::user()->id;
+        // $row_lenght=0;
+        // $total=0;
+        // $photos=Photo::where('user_id',$user_id)->groupBy('serial_number')->get();
+        $photos=Photo::where('user_id',$user_id)->where('serial_number',$serial_number)->get();
+        // dd($photos);
+        // dd($photos[0]->serial_number);
+        // $photos=Photo::all()->where('user_id',$user_id)->groupBy('serial_number')->sortKeysDesc();
+        // dd($photos);
+        return view('pages.photo.view',compact('photos','serial_number'));
     }
 
     public function photoStore(Request $request){
@@ -86,4 +102,14 @@ class PhotoController extends Controller
         return response()->download($fileName);
 
     }
+
+    public function photoSingleDownload($photo){ 
+        $user_id=Auth::user()->id;
+
+        $photo_get=Photo::where('user_id',$user_id)->where('photo',$photo)->first();
+        $upload_path = public_path().'/photo_ai/user_'.$photo_get->user_id.'/serial_'.$photo_get->serial_number.'/'.$photo;
+        // dd($upload_path);
+        return response()->download($upload_path);
+    }
+
 }

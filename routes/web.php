@@ -32,5 +32,7 @@ Route::middleware([
     Route::get('photo-list', [PhotoController::class,'photoList'])->name('photoList');
     Route::post('photo-store', [PhotoController::class,'photoStore'])->name('photoStore');
     Route::get('photo-download/{serial_no}', [PhotoController::class,'photoDownload'])->name('photoDownload');
+    Route::get('photo-single-download/{photo}', [PhotoController::class,'photoSingleDownload'])->name('photoSingleDownload');
+    Route::get('photo-view/{serial_no}', [PhotoController::class,'photoView'])->name('photoView');
     
 });
