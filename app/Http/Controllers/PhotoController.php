@@ -51,7 +51,7 @@ class PhotoController extends Controller
         $user_id=Auth::user()->id;
         $serial_no=Photo::where('user_id',$user_id)->latest()->first();
         if(empty($serial_no)){
-            $serial_no=1;            
+            $serial_no=1;
         }else{
             $serial_no=$serial_no->serial_number+1;
         }
@@ -76,7 +76,7 @@ class PhotoController extends Controller
         return redirect()->route('photoList')->with('success','You have successfully upload image.');
     }
 
-    public function photoDownload($serial_no){ 
+    public function photoDownload($serial_no){
         $user_id=Auth::user()->id;
         $fileName='user_'.$user_id.'_serial_'.$serial_no.'.zip';
         $upload_path = '/photo_ai/user_'.$user_id.'serial_'.$serial_no;
@@ -89,11 +89,11 @@ class PhotoController extends Controller
         // dd(url('/').$upload_path);
         $zip = new ZipArchive;
         if ($zip->open($fileName, ZipArchive::CREATE) ===TRUE)
-        {      
+        {
                 foreach($photos as $photo){
                     $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$photo->serial_number.'/'.$photo->photo;
                     $url=public_path($upload_path);
-                    $name = basename($url);          
+                    $name = basename($url);
                     $zip->addFile($url, $name);
                 }
             $zip->close();
@@ -103,7 +103,7 @@ class PhotoController extends Controller
 
     }
 
-    public function photoSingleDownload($photo){ 
+    public function photoSingleDownload($photo){
         $user_id=Auth::user()->id;
 
         $photo_get=Photo::where('user_id',$user_id)->where('photo',$photo)->first();
