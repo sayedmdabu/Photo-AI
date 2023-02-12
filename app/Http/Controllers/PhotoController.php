@@ -42,10 +42,14 @@ class PhotoController extends Controller
     }
 
     public function photoStore(Request $request){
+        // dd($image_array);
         $request->validate([
             'photo' => 'required',
             'photo.*' => 'required|image',
         ]);
+
+        // $order_id =substr(now()->timestamp, 3);
+        // dd($order_id);
         // dd($request->all());
         $images=$request->file('photo');
         $user_id=Auth::user()->id;
@@ -56,22 +60,59 @@ class PhotoController extends Controller
             $serial_no=$serial_no->serial_number+1;
         }
 
+
+        $order_id =substr(now()->timestamp, 3);
+
         foreach($images as $image){
             $image_name = hexdec(uniqid());
             $ext = strtolower($image->getClientOriginalExtension());
             $image_full_name = $image_name . '.' . $ext;
             $upload_path = '/photo_ai/user_'.$user_id.'/serial_'.$serial_no.'/';
-            $image_url =$upload_path . $image_full_name;
+            // $image_url =$upload_path . $image_full_name;
             // dd($image_url);
             $image->move(public_path() . '/' . $upload_path, $image_full_name);
 
+            $image_url = public_path() . '/' . $upload_path. $image_full_name;
+
             $insert=new Photo();
+            $insert->order_id=$order_id;
             $insert->user_id=$user_id;
             $insert->serial_number=$serial_no;
             $insert->photo=$image_full_name;
             $insert->save();
+
+
+            // photo send post
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'http://localhost:8000/reqform',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('order_id' => $order_id,'gpu_id' => '0','style_ls' => 'st001','train' => 'True','infer' => 'True','image_format' => 'jpg',
+                'image_ls'=> new \CURLFILE($image_url)),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: multipart/form-data'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            // echo $response;
+
             sleep(1);
         }
+
+
+
+
+
         // dd($user_id);
         return redirect()->route('photoList')->with('success','You have successfully upload image.');
     }

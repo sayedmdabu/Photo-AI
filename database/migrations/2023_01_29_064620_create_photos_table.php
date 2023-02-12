@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('order_id');
             $table->integer('user_id');
             $table->integer('serial_number');
             $table->binary('photo');
@@ -22,6 +23,7 @@ return new class extends Migration
 
             $table->index('id');
             $table->index('user_id');
+            $table->index('order_id');
         });
     }
 
