@@ -9,7 +9,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
                     <x-link href="{{ route('photoAdd') }}" class="m-4 px-2 py-1 rounded">Add Photo</x-link>
-                    <x-jet-button onclick="downloadBulkentryFormat('{{$serial_number}}')">
+                    <x-jet-button onclick="downloadBulkentryAllFormat('{{$serial_number}}')">
                         {{ __('Download') }}
                     </x-jet-button>
                     {{-- <x-link  class="m-4 px-2 py-1 rounded"></x-link> --}}
@@ -39,6 +39,11 @@
     <script>
         function downloadBulkentryFormat(photo){
             var url = "{{route('photoSingleDownload', '')}}"+"/"+photo;
+            window.open(url,"_blank");
+        }
+
+        function downloadBulkentryAllFormat(serial_number){
+            var url = "{{route('photoDownload', '')}}"+"/"+serial_number;
             window.open(url,"_blank");
         }
     </script>
