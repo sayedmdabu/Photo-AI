@@ -9,7 +9,7 @@ use App\Models\User;
 use File;
 use Zip;
 use ZipArchive;
-use DB;
+use Illuminate\Support\Facades\DB;
 class PhotoController extends Controller
 {
     public function photoAdd(){
