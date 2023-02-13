@@ -12,7 +12,7 @@ class Photo extends Model
     protected $table="photos";
 
     protected $fillable = [
-        
+        'order_id',
         'user_id',
         'serial_number',
         'photo',
