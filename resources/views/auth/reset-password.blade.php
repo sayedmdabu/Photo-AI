@@ -2,7 +2,7 @@
     <x-jet-authentication-card>
         <x-slot name="logo">
             {{-- <x-jet-authentication-card-logo /> --}}
-            <img alt="image" src="{{asset('assets/image/logo/Intelcaffe-logo.png')}}" class="header-logo" />
+            <img alt="image" src="{{asset('a`ssets/image/logo/Intelcaffe-logo.png')}}" class="header-logo" />
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
