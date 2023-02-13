@@ -120,7 +120,9 @@ class PhotoController extends Controller
     }
 
     public function photoDownload($serial_no){
+        dd($serial_no);
         $user_id=Auth::user()->id;
+        // dd($user_id);
         $fileName='user_'.$user_id.'_serial_'.$serial_no.'.zip';
         $upload_path = '/photo_ai/user_'.$user_id.'serial_'.$serial_no;
         $upload_zip = '/photo_ai/';
@@ -147,6 +149,7 @@ class PhotoController extends Controller
     }
 
     public function photoSingleDownload($photo){
+        // dd($photo);
         $user_id=Auth::user()->id;
 
         $photo_get=Photo::where('user_id',$user_id)->where('photo',$photo)->first();
