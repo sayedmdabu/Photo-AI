@@ -13,7 +13,24 @@
                         {{ __('Download') }}
                     </x-jet-button> --}}
                     {{-- <x-link  class="m-4 px-2 py-1 rounded"></x-link> --}}
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
+                    <div class="row">
+                        @foreach ($photos as $photo)                            
+                            <div  style="float:left; width:20%; text-align:center; border:1px solid #181717; margin:4px; border-radius:5px;">
+                                <a href="{{route('photoView',$photo->serial_number)}}" class="m-4 px-2 py-1 rounded">                                    
+                                    <div class="card">
+                                        <div class="card-body">
+                                            Task {{$photo->serial_number}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+
+
+                    {{-- <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -33,6 +50,7 @@
                         <tbody>
                             @foreach ($photos as $photo_serial)
                                 @foreach ($photo_serial as $key=>$photo)
+                               
                                     <?php 
                                         $total_serial=count($photo_serial);                                   
                                         $total+=$key;
@@ -62,27 +80,8 @@
                                     $total=0;
                                 ?>   
                             @endforeach
-                        </tbody>
-                        {{-- @forelse ($tasks as $task)
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ $task->name }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('tasks.edit', $task) }}"
-                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td colspan="2"
-                                    class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ __('No tasks found') }}
-                                </td>
-                            </tr>
-                        @endforelse --}}
-                        </tbody>
-                    </table>
+                      
+                    </table> --}}
                 </div>
             </div>
         </div>
