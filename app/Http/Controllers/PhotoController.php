@@ -29,7 +29,7 @@ class PhotoController extends Controller
         return view('pages.photo.index',compact('photos','row_lenght','total'));
     }
     public function photoView($serial_number){
-        dd($serial_number);
+        // dd($serial_number);
         $user_id=Auth::user()->id;
         // $row_lenght=0;
         // $total=0;
